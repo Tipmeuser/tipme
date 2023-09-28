@@ -1,0 +1,32 @@
+const SERVICE_URL = {
+  GET_ALL_COUNTRIES: 'api/admin/countries',
+  GET_ALL_LANGUAGES: 'api/admin/languages',
+  USER: 'api/user',
+  USER_LOGIN: 'api/user/userlogin',
+  GENERATE_OTP: 'api/admin/generateOtp',
+  WORKING_IN: 'api/user/workingIn',
+  PRIVACY_POLICY: 'api/admin/privacyPolicies',
+  TERMS_AND_CONDITIONS: 'api/admin/termsAndConditions',
+  EMPLOYER_NAME: 'api/admin/employers',
+  UPLOAD_FILE: 'api/admin/upload',
+  BANK_DETAILS: 'api/user/workerBankDetails',
+  LIST_TIPS: 'api/admin/listTransactionHistory',
+  NOTIFICATION: 'api/admin/pushNotification',
+  REMOVENOTIFICATION: 'api/admin/pushNotifications',
+  GET_CITIES: 'api/admin/cities',
+  CUSTOMERCARE_TICKETS: 'api/admin/tickets',
+  CUSTOMER_CARE_CENTER: 'api/admin/customerCentres',
+  PAYMENT_INTENT: 'api/user/createPayment',
+  SPLIT_WORKER_DETAILS: 'api/user/getSplitWithWorker',
+  WORKER_WITH_EMPLOYER: 'api/user/getWorkerWithEmployee',
+  SPLIT: 'api/user/split',
+  ADMIN_BANK_DETAILS: 'api/admin/listBankAccount',
+  CREATE_BANK_ACCOUNT: 'api/user/creatBankAccount',
+  CREATE_TRANSFER: 'api/user/creatTransfer',
+  CREATE_TRANSACTION: 'api/admin/transactionHistory',
+  GET_PAYMENT_METHOD: 'api/user/getCustomerPaymentMethod',
+  GET_WORKER_DETAILS: 'api/user/getWorkerMobileNumber',
+  GET_WRIST_BAND:'api/admin/wristbandImages'
+};
+
+export default SERVICE_URL;

@@ -2,8 +2,7 @@ import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm(props) {
-  console.log(props.amount, "propsprops");
+export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -21,14 +20,14 @@ export default function CheckoutForm(props) {
 
     setIsProcessing(true);
 
-    const { error, response } = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "https://api.dustmanrecycling.com",
+        return_url: "https://snazzy-lolly-c7aa33.netlify.app",
       },
     });
-    console.log(response, "response");
+
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
@@ -43,7 +42,7 @@ export default function CheckoutForm(props) {
       <PaymentElement id="payment-element" />
       <button disabled={isProcessing || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isProcessing ? "Processing ... " : `${"Pay now"} ${props.amount}`}
+          {isProcessing ? "Processing ... " : "Pay now"}
         </span>
       </button>
       {/* Show any error or success messages */}
