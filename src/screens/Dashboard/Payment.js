@@ -12,7 +12,11 @@ const Payment = () => {
   console.log(state.tipAmount, "state");
   useEffect(() => {
     // Load Stripe with your public key
-    setStripePromise(loadStripe(""));
+    setStripePromise(
+      loadStripe(
+        "pk_test_51NdHL7D8sIpXeskQeT6CpplrqrGVFHb5npUb6p44xjXwavDqBNefgfC9VW4VqTKnFJ7bB5bK0OJOwXFfKBu6O9e4006pkHpPmK"
+      )
+    );
   }, []);
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const Payment = () => {
     };
 
     fetchClientSecret();
-  }, []);
+  }, [state.tipAmount]);
 
   return (
     <>

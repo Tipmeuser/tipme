@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const theme = useTheme();
-  const [isError, setIsError] = useState(false);
+  const [isError] = useState(false);
   const navigate = useNavigate();
 
   const initialValues = {
