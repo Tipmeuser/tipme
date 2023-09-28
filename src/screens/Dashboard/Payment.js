@@ -3,12 +3,12 @@ import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
-import { useLocation } from "react-router";
+// import { useLocation } from "react-router";
 
 const Payment = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
-  const { state } = useLocation();
+  // const { state } = useLocation();
   // console.log(state.tipAmount, "state");
   useEffect(() => {
     // Load Stripe with your public key
