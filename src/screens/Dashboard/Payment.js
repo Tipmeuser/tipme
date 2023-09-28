@@ -9,7 +9,7 @@ const Payment = () => {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const { state } = useLocation();
-  console.log(state.tipAmount, "state");
+  // console.log(state.tipAmount, "state");
   useEffect(() => {
     // Load Stripe with your public key
     setStripePromise(
@@ -27,7 +27,7 @@ const Payment = () => {
           "https://tipmeapi.duceapps.com/api/user/createPayment",
           {
             customer_id: "cus_OiHo8MBluC2r1S",
-            amount: Number(state.tipAmount) * 100,
+            // amount: Number(state.tipAmount) * 100,
             currency: "USD",
           }
         );
@@ -39,7 +39,7 @@ const Payment = () => {
     };
 
     fetchClientSecret();
-  }, [state.tipAmount]);
+  }, []);
 
   return (
     <>
