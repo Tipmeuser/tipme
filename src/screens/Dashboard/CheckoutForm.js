@@ -24,14 +24,14 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "https://snazzy-lolly-c7aa33.netlify.app/completion",
+        return_url: "https://snazzy-lolly-c7aa33.netlify.app",
       },
     });
 
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
-      setMessage("An unexpected error occured.");
+      setMessage("An unexpected error occurred.");
     }
 
     setIsProcessing(false);

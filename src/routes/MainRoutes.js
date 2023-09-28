@@ -20,10 +20,10 @@ const MainRoutes = {
     },
     {
       path: "payment",
-      element: <Payment/>,
+      element: <Payment />,
     },
     {
-      path: "completion",
+      path: "completion/:payment_intent",
       element: <Completion />,
     },
   ],
