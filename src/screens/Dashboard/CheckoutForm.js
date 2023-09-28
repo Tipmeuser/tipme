@@ -24,7 +24,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
+        return_url: `https://6515634197ad080008f5f826--snazzy-lolly-c7aa33.netlify.app/completion`,
       },
     });
 
