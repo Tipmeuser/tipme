@@ -22,8 +22,8 @@ const Dashboard = () => {
   console.log(id, "iddddd");
   const initialValues = {
     tipAmount: "",
-    workerName:"",
-    mobileNumber:""
+    workerName: "",
+    mobileNumber: "",
   };
 
   const edit = useFormEdit(initialValues);
@@ -36,7 +36,10 @@ const Dashboard = () => {
     ) {
       const workerDetails = getWorkerDetailsRes.data[0];
       console.log(workerDetails, "uuuuuu");
-      edit.update({workerName:workerDetails.name,mobileNumber: workerDetails.mobile_number})
+      edit.update({
+        workerName: workerDetails.name,
+        mobileNumber: workerDetails.mobile_number,
+      });
       let barCodeAccData = {
         workerDetails: {
           worker_id: workerDetails.id,
@@ -125,7 +128,7 @@ const Dashboard = () => {
           flexDirection: "column",
           // rowGap: 20,
           alignItems: "center",
-          width: 380,
+          width: 400,
           height: 300,
         }}
       >
@@ -136,9 +139,9 @@ const Dashboard = () => {
         />
         <img src={ProfileIcon} alt="Profile" />
         <Typography style={{ fontSize: 15, fontWeight: "500" }}>
-          {`Paying ${edit.getValue('workerName')}`}
+          {`Paying ${edit.getValue("workerName")}`}
         </Typography>
-        <Typography>{edit.getValue('mobileNumber')}</Typography>
+        <Typography>{edit.getValue("mobileNumber")}</Typography>
         <Rating
           name="size-large"
           defaultValue={2}
