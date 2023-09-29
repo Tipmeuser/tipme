@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import {
   Container,
   Grid,
-  IconButton,
   InputAdornment,
   Typography,
 } from "@mui/material";
@@ -12,9 +10,24 @@ import { useTheme } from "@mui/material/styles";
 import TipmeLogo from "../../assets/TipLogo.png";
 import { MuiTextInput } from "../../components";
 import Gpay from "../../assets/Gpay.svg";
+import AppleStore from "../../assets/appleStore.svg"
 
 const SuccessScreen = () => {
   const theme = useTheme();
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(()=>{
+    if (
+        navigator.platform === "iPad" ||
+        navigator.platform === "iPhone" ||
+        navigator.platform === "iPod"
+      ) {
+        setIsIOS(true);
+      } else {
+        setIsIOS(false);
+      }
+  },[])
+
   return (
     <Container maxWidth={"xs"}>
       <Grid
@@ -100,7 +113,7 @@ const SuccessScreen = () => {
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 7, alignContent: "center" }}>
-          <img src={Gpay} alt="logo" />
+          <img src={isIOS? AppleStore : Gpay} alt="logo" />
         </Grid>
       </Grid>
     </Container>

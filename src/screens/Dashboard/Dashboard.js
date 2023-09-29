@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import TipmeLogo from "../../assets/TipLogo.png";
 import ProfileIcon from "../../assets/ProfileIcon.svg";
 import Gpay from "../../assets/Gpay.svg";
+import ApplePay from "../../assets/applePay.svg";
+import AppleStore from "../../assets/appleStore.svg";
 import GpayLogo from "../../assets/GpayLogo.svg";
 import RevoultLogo from "../../assets/RevoultLogo.svg";
 import Rating from "@mui/material/Rating";
@@ -19,6 +21,7 @@ const Dashboard = () => {
   const [isError] = useState(false);
   const navigate = useNavigate();
   let { id } = useParams();
+  const [isIOS, setIsIOS] = useState(false);
   console.log(id, "iddddd");
   const initialValues = {
     tipAmount: "",
@@ -109,6 +112,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     featch();
+    if (
+      navigator.platform === "iPad" ||
+      navigator.platform === "iPhone" ||
+      navigator.platform === "iPod"
+    ) {
+      setIsIOS(true);
+    } else {
+      setIsIOS(false);
+    }
   }, [featch]);
 
   const onClickPay = () => {
@@ -129,7 +141,7 @@ const Dashboard = () => {
           // rowGap: 20,
           alignItems: "center",
           width: 400,
-          height: 300,
+          //height: 300,
         }}
       >
         <img
@@ -159,9 +171,10 @@ const Dashboard = () => {
         >
           Enter Tip Amount
         </Typography>
-        <Grid style={{ width: "150px", marginBottom: 25 }}>
+        <Grid style={{ width: "65%", marginBottom: 25 }}>
           <MuiTextInput
             autoFocus
+            isBorderColor={"transparent"}
             value={edit.getValue("tipAmount").toLocaleString("en-IN")}
             onChange={(event) => {
               edit.update({
@@ -170,20 +183,23 @@ const Dashboard = () => {
             }}
             error={isError && !edit.allFilled("tipAmount")}
             inputHeight={40}
+            textWeight={700}
+            textSize={36}
             sx={{
               "& fieldset": { border: "none" },
               "& .MuiInput-underline:hover:before": {
                 border: "none !important",
               },
             }}
+            inputProps={{ inputMode: 'numeric' }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <Typography
                     style={{
                       color: "#000000",
-                      fontSize: "16px",
-                      fontWeight: "500",
+                      fontSize: "36px",
+                      fontWeight: "700",
                     }}
                   >
                     USD
@@ -210,7 +226,13 @@ const Dashboard = () => {
             size="large"
             disableRipple
             variant="outlined"
-            endIcon={<img src={GpayLogo} alt="Revoult" height={20} />}
+            endIcon={
+              <img
+                src={isIOS ? ApplePay : GpayLogo}
+                alt="Revoult"
+                height={20}
+              />
+            }
             style={{
               borderColor: "#FF914D",
               borderRadius: 20,
@@ -261,7 +283,7 @@ const Dashboard = () => {
         >
           Pay With Card
         </Button>
-        <img src={Gpay} alt="logo" />
+        <img src={isIOS ? AppleStore : Gpay} alt="logo" />
       </Box>
     </Container>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import {
   Container,
@@ -11,9 +11,23 @@ import { useTheme } from "@mui/material/styles";
 import TipmeLogo from "../../assets/TipLogo.png";
 import { MuiTextInput } from "../../components";
 import Gpay from "../../assets/Gpay.svg";
+import AppleStore from "../../assets/appleStore.svg";
 
 const FailureScreen = () => {
   const theme = useTheme();
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    if (
+      navigator.platform === "iPad" ||
+      navigator.platform === "iPhone" ||
+      navigator.platform === "iPod"
+    ) {
+      setIsIOS(true);
+    } else {
+      setIsIOS(false);
+    }
+  }, []);
   return (
     <Container maxWidth={"xs"}>
       <Grid
@@ -99,7 +113,7 @@ const FailureScreen = () => {
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 7, alignContent: "center" }}>
-          <img src={Gpay} alt="logo" />
+          <img src={isIOS ? AppleStore : Gpay} alt="logo" />
         </Grid>
         <Button
           sx={{
@@ -115,7 +129,6 @@ const FailureScreen = () => {
           }}
           size="large"
           disableRipple
-          style={{}}
           // onClick={onClickPay}
         >
           Retry Again
