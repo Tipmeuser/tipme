@@ -54,7 +54,7 @@ const getUserById = async (id) => {
       const requestUrl = SERVICE_URL.GET_PAYMENT_METHOD;
       const response = await INSTANCE.get(requestUrl, { params: queryParams });
       return response.data;
-    } catch (erry) {
+    } catch (err) {
       return err?.response?.data;
     }
   };

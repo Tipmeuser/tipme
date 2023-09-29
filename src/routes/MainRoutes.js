@@ -12,10 +12,10 @@ const MainRoutes = {
   children: [
     {
       path: "/",
-      element: <Navigate to="stripe-payment-dashboard" replace />,
+      element: <Navigate to="stripe-payment-dashboard/:id" replace />,
     },
     {
-      path: "stripe-payment-dashboard",
+      path: "stripe-payment-dashboard/:id",
       element: <Dashboard />,
     },
     {

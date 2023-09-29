@@ -3,12 +3,10 @@ import {
   Button,
   Container,
   Grid,
-  Input,
-  TextField,
   Typography,
 } from "@mui/material";
 import { memo, useState } from "react";
-import { MuiButton, MuiTextInput } from "../../components";
+import { MuiTextInput } from "../../components";
 import { useTheme } from "@mui/material/styles";
 import { useFormEdit } from "../../hooks/useFormEdit";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +16,7 @@ import Gpay from "../../assets/Gpay.svg";
 import GpayLogo from "../../assets/GpayLogo.svg";
 import RevoultLogo from "../../assets/RevoultLogo.svg";
 import Rating from "@mui/material/Rating";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 const Dashboard = () => {
   const theme = useTheme();
   const [isError] = useState(false);
@@ -48,7 +45,6 @@ const Dashboard = () => {
           display: "flex",
           flexDirection: "column",
           // rowGap: 20,
-          height: "100%",
           alignItems: "center",
           width: 380,
           height: 300,
@@ -178,7 +174,6 @@ const Dashboard = () => {
             color: "#FFFFFF",
             fontSize: 16,
             marginBottom: 30,
-            fontSize: 12,
             fontWeight: 700,
           }}
           onClick={onClickPay}
