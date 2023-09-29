@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { MainLayout } from "../layouts";
 import Completion from "../screens/Dashboard/Completion";
 import Payment from "../screens/Dashboard/Payment";
+import FailureScreen from "../screens/Dashboard/FailureScreen";
+import SuccessScreen from "../screens/Dashboard/SuccessScreen";
 
 const Dashboard = lazy(() => import("../screens/Dashboard/Dashboard"));
 
@@ -21,6 +23,14 @@ const MainRoutes = {
     {
       path: "payment",
       element: <Payment />,
+    },
+    {
+      path: "success-screen",
+      element: <SuccessScreen />,
+    },
+    {
+      path: "failure-screen",
+      element: <FailureScreen />,
     },
     {
       path: "completion/:payment_intent",
