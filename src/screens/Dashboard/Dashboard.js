@@ -131,7 +131,6 @@ const Dashboard = () => {
               color: "#000000",
               fontSize: 16,
               marginBottom: 5,
-              fontSize: 12,
               fontWeight: 700,
             }}
             onClick={onClickPay}
@@ -150,7 +149,6 @@ const Dashboard = () => {
               color: "#000000",
               fontSize: 16,
               marginBottom: 5,
-              fontSize: 12,
               fontWeight: 700,
             }}
             onClick={onClickPay}
