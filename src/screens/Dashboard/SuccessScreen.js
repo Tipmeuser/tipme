@@ -1,35 +1,30 @@
 import React, { useEffect, useState } from "react";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import {
-  Container,
-  Grid,
-  InputAdornment,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, InputAdornment, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import TipmeLogo from "../../assets/TipLogo.png";
 import { MuiTextInput } from "../../components";
 import Gpay from "../../assets/Gpay.svg";
-import AppleStore from "../../assets/appleStore.svg"
+import AppleStore from "../../assets/appleStore.svg";
 import { useLocation } from "react-router";
 
 const SuccessScreen = () => {
   const theme = useTheme();
   const { state } = useLocation();
-  console.log(state,'state')
+  console.log(state, "state");
   const [isIOS, setIsIOS] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (
-        navigator.platform === "iPad" ||
-        navigator.platform === "iPhone" ||
-        navigator.platform === "iPod"
-      ) {
-        setIsIOS(true);
-      } else {
-        setIsIOS(false);
-      }
-  },[])
+      navigator.platform === "iPad" ||
+      navigator.platform === "iPhone" ||
+      navigator.platform === "iPod"
+    ) {
+      setIsIOS(true);
+    } else {
+      setIsIOS(false);
+    }
+  }, []);
 
   return (
     <Container maxWidth={"xs"}>
@@ -97,26 +92,26 @@ const SuccessScreen = () => {
           <Typography
             style={{ fontSize: 16, fontWeight: "500", color: "#000000" }}
           >
-             {`Tipped ${state.name}` }
+            {`Tipped ${state?.name}`}
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
           >
-            ********765
+            {state?.mobileNumber}
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 5, textAlign: "center" }}>
           <Typography style={{ fontSize: 13, fontWeight: "700" }}>
-            20 Jan 2023, 7:03 PM
+            {state?.date}
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
           >
-            Transaction ID: 427281527182
+            {` Transaction ID: TR${state?.transactionId}`}
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 7, alignContent: "center" }}>
-          <img src={isIOS? AppleStore : Gpay} alt="logo" />
+          <img src={isIOS ? AppleStore : Gpay} alt="logo" />
         </Grid>
       </Grid>
     </Container>

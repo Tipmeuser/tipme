@@ -11,9 +11,10 @@ export default function CheckoutForm(props) {
   console.log(props.data, "props.data");
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [workerTransactionData,setWorkerTransactionData]=useState({})
+  const [workerTransactionData, setWorkerTransactionData] = useState({});
   const randomNum = Math.floor(1000000 + Math.random() * 9000000);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(props.data, "props.data");
@@ -22,7 +23,6 @@ export default function CheckoutForm(props) {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
     setIsProcessing(true);
 
     // const { error } = await stripe.confirmPayment({
@@ -100,10 +100,11 @@ export default function CheckoutForm(props) {
       });
       let piCreatedTime = piRes?.paymentIntent?.created;
       const transData = {
-        user_id: barCodeAccountData?.id||3,
+        user_id: barCodeAccountData?.id || 3,
         worker_id: barCodeAccountData?.workerDetails?.worker_id,
-        source_account: '0077',
-        payment_tip_type: barCodeAccountData?.workerDetails?.payment_tip_type||"QR",
+        source_account: "0077",
+        payment_tip_type:
+          barCodeAccountData?.workerDetails?.payment_tip_type || "QR",
         stripe_transaction: {
           amount: piAmount / 100,
           payment_status: "SUCCESS",
@@ -136,26 +137,64 @@ export default function CheckoutForm(props) {
           }),
         transactionId: randomNum,
       };
-      console.log(transResDataMainWorker,'transResDataMainWorker')
-      setWorkerTransactionData( {amount: mainWorkeramount,
-        name: barCodeAccountData?.workerDetails?.name,
-        mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
-        date:
-          new Date(createdDate).getDate() +
-          " " +
-          new Date(createdDate).toLocaleDateString("en-US", {
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        transactionId: randomNum})
+      console.log(transResDataMainWorker, "transResDataMainWorker");
+      // setWorkerTransactionData({
+      //   amount: mainWorkeramount,
+      //   name: barCodeAccountData?.workerDetails?.name,
+      //   mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
+      //   date:
+      //     new Date(createdDate).getDate() +
+      //     " " +
+      //     new Date(createdDate).toLocaleDateString("en-US", {
+      //       month: "short",
+      //       year: "numeric",
+      //       hour: "2-digit",
+      //       minute: "2-digit",
+      //     }),
+      //   transactionId: randomNum,
+      // });
+
+      setIsProcessing(false);
+      navigate("/success-screen", {
+        state: {
+          amount: mainWorkeramount,
+          name: barCodeAccountData?.workerDetails?.name,
+          mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
+          date:
+            new Date(createdDate).getDate() +
+            " " +
+            new Date(createdDate).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          transactionId: randomNum,
+        },
+      });
+    } else {
+      navigate("/failure-screen", {
+        state: {
+          amount: 100,
+          name: barCodeAccountData?.workerDetails?.name,
+          mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
+          date:
+            new Date().getDate() +
+            " " +
+            new Date().toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          transactionId: randomNum,
+        },
+      });
     }
 
-    setIsProcessing(false);
-    navigate("/success-screen",{state:workerTransactionData})
+    // setIsProcessing(false);
   };
-
+  console.log(workerTransactionData, "workerTransactionData");
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
