@@ -109,7 +109,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     featch();
-  }, []);
+  }, [featch]);
 
   const onClickPay = () => {
     if (RequiredFields && edit.allFilled("tipAmount")) {
