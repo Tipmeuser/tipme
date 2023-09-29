@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { memo, useState } from "react";
 import { MuiTextInput } from "../../components";
 import { useTheme } from "@mui/material/styles";
@@ -16,6 +10,7 @@ import Gpay from "../../assets/Gpay.svg";
 import GpayLogo from "../../assets/GpayLogo.svg";
 import RevoultLogo from "../../assets/RevoultLogo.svg";
 import Rating from "@mui/material/Rating";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -66,18 +61,11 @@ const Dashboard = () => {
           style={{ borderRadius: 10 }}
           size="large"
         />
-        {/* <Rating
-          name="customized-color"
-          defaultValue={2}
-          getLabelText={(value) => `${value} Heart${value !== 1 ? "s" : ""}`}
-          precision={0.5}
-          icon={<FavoriteIcon fontSize="inherit" />}
-          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-        /> */}
+
         <Typography
           style={{
             marginTop: 10,
-            marginBottom: 20,
+            marginBottom: 10,
             fontSize: 13,
             color: "#7C8396",
           }}
@@ -86,6 +74,7 @@ const Dashboard = () => {
         </Typography>
         <Grid style={{ width: "150px", marginBottom: 25 }}>
           <MuiTextInput
+            autoFocus
             value={edit.getValue("tipAmount").toLocaleString("en-IN")}
             onChange={(event) => {
               edit.update({
@@ -93,18 +82,33 @@ const Dashboard = () => {
               });
             }}
             error={isError && !edit.allFilled("tipAmount")}
-            inputHeight={35}
+            inputHeight={40}
             sx={{
               "& fieldset": { border: "none" },
               "& .MuiInput-underline:hover:before": {
                 border: "none !important",
               },
             }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Typography
+                    style={{
+                      color: "#000000",
+                      fontSize: "34px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    USD
+                  </Typography>
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid
           container
-          gap={2}
+          gap={1}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -114,53 +118,45 @@ const Dashboard = () => {
             marginBottom: 15,
           }}
         >
-          <Box
+          <Button
+            sx={{ textTransform: "none" }}
+            size="large"
+            disableRipple
+            variant="outlined"
+            endIcon={<img src={GpayLogo} alt="Revoult" height={20} />}
             style={{
-              border: "1px solid",
-              borderRadius: 10,
-              height: 45,
-              width: 150,
-              alignItems: "center",
-              justifyContent: "center",
-              paddingTop: 8,
-              paddingLeft: 10,
+              borderColor: "#FF914D",
+              borderRadius: 20,
+              borderWidth: "1px solid ",
+              color: "#000000",
+              fontSize: 16,
+              marginBottom: 5,
+              fontSize: 12,
+              fontWeight: 700,
             }}
+            onClick={onClickPay}
           >
-            <Typography
-              style={{
-                fontSize: 13,
-                paddingRight: 10,
-                fontWeight: "500px",
-                alignItems: "center",
-              }}
-            >
-              Pay With {" ,"}
-              <span style={{ display: "inline-block", alignItems: "center" }}>
-                <img src={GpayLogo} alt="Revoult" height={20} />
-              </span>
-            </Typography>
-          </Box>
-
-          <Box
+            Pay With
+          </Button>
+          <Button
+            sx={{ textTransform: "none" }}
+            size="large"
+            disableRipple
+            variant="outlined"
+            endIcon={<img src={RevoultLogo} alt="Revoult" />}
             style={{
-              border: "1px solid",
-              borderRadius: 10,
-              height: 45,
-              width: 150,
-              alignItems: "center",
-              paddingTop: 12,
-              paddingLeft: 10,
+              borderColor: "#FF914D",
+              borderRadius: 20,
+              color: "#000000",
+              fontSize: 16,
+              marginBottom: 5,
+              fontSize: 12,
+              fontWeight: 700,
             }}
+            onClick={onClickPay}
           >
-            <Typography
-              style={{ fontSize: 13, paddingRight: 10, fontWeight: "500px" }}
-            >
-              Pay With {" ,"}
-              <span style={{ display: "inline-block" }}>
-                <img src={RevoultLogo} alt="Revoult" />
-              </span>
-            </Typography>
-          </Box>
+            Pay With
+          </Button>
         </Grid>
 
         <Button
@@ -168,7 +164,7 @@ const Dashboard = () => {
           size="large"
           disableRipple
           style={{
-            width: "90%",
+            width: "100%",
             backgroundColor: "#FF914D",
             borderRadius: 20,
             color: "#FFFFFF",
