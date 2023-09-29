@@ -12,11 +12,14 @@ import TipmeLogo from "../../assets/TipLogo.png";
 import { MuiTextInput } from "../../components";
 import Gpay from "../../assets/Gpay.svg";
 import AppleStore from "../../assets/appleStore.svg";
+import { useLocation, useNavigate } from "react-router";
 
 const FailureScreen = () => {
   const theme = useTheme();
   const [isIOS, setIsIOS] = useState(false);
-
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log(state, "state");
   useEffect(() => {
     if (
       navigator.platform === "iPad" ||
@@ -28,6 +31,10 @@ const FailureScreen = () => {
       setIsIOS(false);
     }
   }, []);
+
+  const onClickPay=()=>{
+    navigate(`/stripe-payment-dashboard/${state?.worker_id}`)
+  }
   return (
     <Container maxWidth={"xs"}>
       <Grid
@@ -83,8 +90,7 @@ const FailureScreen = () => {
                       fontWeight: "700",
                     }}
                   >
-                    USD
-                  </Typography>
+  {`USD ${state?.amount}` }                  </Typography>
                 </InputAdornment>
               ),
             }}
@@ -94,22 +100,22 @@ const FailureScreen = () => {
           <Typography
             style={{ fontSize: 16, fontWeight: "500", color: "#000000" }}
           >
-            Tip Failed To Jacob Jones
+            {`Tip Failed To ${state?.name}`}
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
           >
-            **** **** 9097
+            {state?.mobileNumber}
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 5, textAlign: "center" }}>
           <Typography style={{ fontSize: 13, fontWeight: "700" }}>
-            20 Jan 2023, 7:03 PM
+          {state?.date}
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
           >
-            Transaction ID: 427281527182
+           {` Transaction ID: TR${state?.transactionId}`}
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 7, alignContent: "center" }}>
@@ -129,7 +135,7 @@ const FailureScreen = () => {
           }}
           size="large"
           disableRipple
-          // onClick={onClickPay}
+          onClick={onClickPay}
         >
           Retry Again
         </Button>

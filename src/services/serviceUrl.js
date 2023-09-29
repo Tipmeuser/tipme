@@ -26,7 +26,8 @@ const SERVICE_URL = {
   CREATE_TRANSACTION: 'api/admin/transactionHistory',
   GET_PAYMENT_METHOD: 'api/user/getCustomerPaymentMethod',
   GET_WORKER_DETAILS: 'api/user/getWorkerMobileNumber',
-  GET_WRIST_BAND:'api/admin/wristbandImages'
+  GET_WRIST_BAND:'api/admin/wristbandImages',
+  GET_NET_AMOUNT:'api/user/getPaymentIntendNetAmount'
 };
 
 export default SERVICE_URL;

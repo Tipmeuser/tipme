@@ -25,23 +25,29 @@ export default function CheckoutForm(props) {
     }
     setIsProcessing(true);
 
-    // const { error } = await stripe.confirmPayment({
-    //   elements,
-    //   confirmParams: {
-    //     // Make sure to change this to your payment completion page
-    //     return_url: "https://snazzy-lolly-c7aa33.netlify.app",
-    //   },
-    // });
-
-    // if (error.type === "card_error" || error.type === "validation_error") {
-    //   setMessage(error.message);
+    const { error } = await stripe.confirmPayment({
+      elements,
+      // confirmParams: {
+      //   // Make sure to change this to your payment completion page
+      //   return_url: "https://snazzy-lolly-c7aa33.netlify.app",
+      // },
+      redirect: 'if_required'
+    });
+    console.log(error,'error')
+    // if (error?.type === "card_error" || error?.type === "validation_error") {
+    //   // setMessage(error.message);
     // } else {
     //   setMessage("An unexpected error occurred.");
     // }
 
-    const { barCodeAccountData, tipAmount, payment } = props.data;
+    const { barCodeAccountData, payment } = props.data;
     const piRes = await stripe.retrievePaymentIntent(payment.paymentIntent);
     console.log(piRes, "----piRes-----");
+
+    const netAmount=await API.PaymentServices.getNetAmount({paymentIntend:piRes?.paymentIntent?.id})
+    console.log(netAmount,'netAmount.data.net')
+    
+    console.log(netAmount,'netAmount.data.net')
     let piAmount = piRes?.paymentIntent?.amount;
     let destinationTransferData = [];
     let commisionAmount = 0;
@@ -157,7 +163,7 @@ export default function CheckoutForm(props) {
       setIsProcessing(false);
       navigate("/success-screen", {
         state: {
-          amount: mainWorkeramount,
+          amount: piAmount / 100,
           name: barCodeAccountData?.workerDetails?.name,
           mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
           date:
@@ -175,7 +181,7 @@ export default function CheckoutForm(props) {
     } else {
       navigate("/failure-screen", {
         state: {
-          amount: 100,
+          amount: piAmount / 100,
           name: barCodeAccountData?.workerDetails?.name,
           mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
           date:
@@ -188,6 +194,7 @@ export default function CheckoutForm(props) {
               minute: "2-digit",
             }),
           transactionId: randomNum,
+          worker_id: barCodeAccountData?.workerDetails?.worker_id,
         },
       });
     }

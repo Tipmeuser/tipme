@@ -69,6 +69,16 @@ const getUserById = async (id) => {
     }
   };
 
+  const getNetAmount = async (queryParams) => {
+    try {
+      const requestUrl = SERVICE_URL.GET_NET_AMOUNT;
+      const response = await INSTANCE.get(requestUrl, { params: queryParams });
+      return response.data;
+    } catch (err) {
+      return err?.response?.data;
+    }
+  };
+
   export default {
     getUserById,
     getSplitWorkersDetails,
@@ -76,7 +86,8 @@ const getUserById = async (id) => {
     createPaymentIntent,
     createTransfer,
     getCustomerPaymentMethod,
-    createTransaction
+    createTransaction,
+    getNetAmount
   };
   
   

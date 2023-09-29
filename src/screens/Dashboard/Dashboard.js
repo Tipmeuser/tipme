@@ -135,23 +135,25 @@ const Dashboard = () => {
     if (RequiredFields && edit.allFilled("tipAmount")) {
       let data = {
         customer_id: search.substring(1),
-        amount: Number(edit.getValue("tipAmount")) * 100,
+        amount: Number(edit.getValue("tipAmount"))*100,
         currency: "USD",
       };
       try {
+        if(Object.keys(barCodeAccountData)?.length){
         const response = await API.PaymentServices.createPaymentIntent(data);
-        // console.log(response.data.paymentIntent);
+        console.log(Object.keys(barCodeAccountData),'barCodeAccountData');
         console.log(response, "response");
-        if (response.code ===CONST.STATUS_CODE.CREATED) {
+        if (response.code ===CONST.STATUS_CODE.CREATED ) {
           navigate("/payment", {
             state: {
               barCodeAccountData,
-              tipAmount: edit.getValue("tipAmount"),
+              tipAmount: edit.getValue("tipAmount")*100,
               payment: response,
             },
           });
         }
         setApiResponse(response);
+      }
       } catch (error) {
         console.error("Error fetching client secret:", error);
       }
