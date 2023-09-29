@@ -3,7 +3,7 @@ import { memo, useState, useEffect } from "react";
 import { MuiTextInput } from "../../components";
 import { useTheme } from "@mui/material/styles";
 import { useFormEdit } from "../../hooks/useFormEdit";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TipmeLogo from "../../assets/TipLogo.png";
 import ProfileIcon from "../../assets/ProfileIcon.svg";
 import Gpay from "../../assets/Gpay.svg";
@@ -19,9 +19,14 @@ import CONST from "../../config/constants";
 const Dashboard = () => {
   const theme = useTheme();
   const [isError] = useState(false);
+  const [barCodeAccountData, setBarCodeAccountData] = useState({});
+  const [apiresponse, setApiResponse] = useState();
   const navigate = useNavigate();
   let { id } = useParams();
   const [isIOS, setIsIOS] = useState(false);
+  const { search } = useLocation();
+  console.log(search, "search");
+  console.log(search.substring(1));
   console.log(id, "iddddd");
   const initialValues = {
     tipAmount: "",
@@ -55,6 +60,7 @@ const Dashboard = () => {
         commissionAccounts: [],
         mainWorkerAccounts: [workerDetails.connect_account_id],
         splitWorkerAccount: [],
+        customer_id: search.substring(1),
       };
 
       const [getSplitWorker, getAdminBankDetailRes] = await Promise.all([
@@ -106,6 +112,7 @@ const Dashboard = () => {
           ...rData,
         ];
       }
+      setBarCodeAccountData(barCodeAccData);
       console.log(barCodeAccData, "barCodeAccData");
     }
   };
@@ -121,13 +128,34 @@ const Dashboard = () => {
     } else {
       setIsIOS(false);
     }
-  }, [featch]);
+  }, []);
 
-  const onClickPay = () => {
+
+  const onClickPay = async () => {
     if (RequiredFields && edit.allFilled("tipAmount")) {
-      navigate("/payment", {
-        state: { tipAmount: edit.getValue("tipAmount") },
-      });
+      let data = {
+        customer_id: search.substring(1),
+        amount: Number(edit.getValue("tipAmount")) * 100,
+        currency: "USD",
+      };
+      try {
+        const response = await API.PaymentServices.createPaymentIntent(data);
+        // console.log(response.data.paymentIntent);
+        console.log(response, "response");
+        if (response.code ===CONST.STATUS_CODE.CREATED) {
+          navigate("/payment", {
+            state: {
+              barCodeAccountData,
+              tipAmount: edit.getValue("tipAmount"),
+              payment: response,
+            },
+          });
+        }
+        setApiResponse(response);
+      } catch (error) {
+        console.error("Error fetching client secret:", error);
+      }
+     
     }
   };
 

@@ -11,9 +11,12 @@ import TipmeLogo from "../../assets/TipLogo.png";
 import { MuiTextInput } from "../../components";
 import Gpay from "../../assets/Gpay.svg";
 import AppleStore from "../../assets/appleStore.svg"
+import { useLocation } from "react-router";
 
 const SuccessScreen = () => {
   const theme = useTheme();
+  const { state } = useLocation();
+  console.log(state,'state')
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(()=>{
@@ -94,7 +97,7 @@ const SuccessScreen = () => {
           <Typography
             style={{ fontSize: 16, fontWeight: "500", color: "#000000" }}
           >
-            Tipped Jacob Jones
+             {`Tipped ${state.name}` }
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
