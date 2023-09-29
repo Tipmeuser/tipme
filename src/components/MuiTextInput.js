@@ -39,11 +39,12 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 16,
   color: theme.colors.blueGray.primary,
   display: "flex",
   gap: "8px",
   alignItems: "center",
+  fontWeight:'500'
 }));
 
 const MuiTextInput = ({
