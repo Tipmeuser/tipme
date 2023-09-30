@@ -45,16 +45,16 @@ const SuccessScreen = () => {
         />
         <CheckCircleRoundedIcon
           style={{
-            width: "35%",
-            height: "35%",
+            width: "60%",
+            height: "60%",
             color: "#12A35D",
             paddingTop: "40px",
           }}
         />
-        <Grid sx={{ width: "35%", paddingTop: "40px" }}>
+        <Grid sx={{ width: "50%", paddingTop: "40px" }}>
           <MuiTextInput
             isBorderColor={"transparent"}
-            value={123}
+            value={state?.amount}
             textSize={30}
             textWeight={700}
             //   onChange={(event) => {
@@ -81,7 +81,7 @@ const SuccessScreen = () => {
                       fontWeight: "700",
                     }}
                   >
-                    {`USD ${state?.amount}` }
+                    USD
                   </Typography>
                 </InputAdornment>
               ),

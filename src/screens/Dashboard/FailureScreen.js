@@ -32,9 +32,9 @@ const FailureScreen = () => {
     }
   }, []);
 
-  const onClickPay=()=>{
-    navigate(`/stripe-payment-dashboard/${state?.worker_id}`)
-  }
+  const onClickPay = () => {
+    navigate(`/stripe-payment-dashboard/${state?.worker_id}`);
+  };
   return (
     <Container maxWidth={"xs"}>
       <Grid
@@ -54,16 +54,16 @@ const FailureScreen = () => {
         />
         <CancelRoundedIcon
           style={{
-            width: "35%",
-            height: "35%",
+            width: "60%",
+            height: "60%",
             color: "#EC5C4D",
             paddingTop: "40px",
           }}
         />
-        <Grid sx={{ width: "35%", paddingTop: "40px" }}>
+        <Grid sx={{ width: "50%", paddingTop: "40px" }}>
           <MuiTextInput
             isBorderColor={"transparent"}
-            value={123}
+            value={state?.amount}
             textSize={30}
             textWeight={700}
             //   onChange={(event) => {
@@ -90,7 +90,8 @@ const FailureScreen = () => {
                       fontWeight: "700",
                     }}
                   >
-  {`USD ${state?.amount}` }                  </Typography>
+                    USD
+                  </Typography>
                 </InputAdornment>
               ),
             }}
@@ -110,12 +111,12 @@ const FailureScreen = () => {
         </Grid>
         <Grid sx={{ paddingTop: 5, textAlign: "center" }}>
           <Typography style={{ fontSize: 13, fontWeight: "700" }}>
-          {state?.date}
+            {state?.date}
           </Typography>
           <Typography
             style={{ fontSize: 13, fontWeight: "500", color: "#7C8396" }}
           >
-           {` Transaction ID: TR${state?.transactionId}`}
+            {` Transaction ID: TR${state?.transactionId}`}
           </Typography>
         </Grid>
         <Grid sx={{ paddingTop: 7, alignContent: "center" }}>
