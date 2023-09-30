@@ -1,12 +1,4 @@
 const CONST = {
-  MAP: {
-    GOOGLE_KEY: 'AIzaSyBbmnBQN9_tONY35MVvLRGeFS6GJQWgY0A',
-    LATITUDE_DELTA: 0.0922,
-    LONGITUDE_DELTA: 0.0421,
-    // LATITUDE_DELTA: 0.015,
-    // LONGITUDE_DELTA: 0.0152,
-    DEFAULT_PADDING: { top: 40, right: 40, bottom: 40, left: 40 },
-  },
   TOAST_TYPES: {
     ERROR: 'error',
     WARN: 'warn',
