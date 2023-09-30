@@ -11,32 +11,38 @@ import ApplePay from "../../assets/applePay.svg";
 import AppleStore from "../../assets/appleStore.svg";
 import GpayLogo from "../../assets/GpayLogo.svg";
 import RevoultLogo from "../../assets/RevoultLogo.svg";
-import Rating from "@mui/material/Rating";
+// import Rating from "@mui/material/Rating";
 import InputAdornment from "@mui/material/InputAdornment";
 import API from "../../services";
 import CONST from "../../config/constants";
+import { Rating } from "semantic-ui-react";
 
 const Dashboard = () => {
   const theme = useTheme();
-  const [isError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [barCodeAccountData, setBarCodeAccountData] = useState({});
   const [apiresponse, setApiResponse] = useState();
   const navigate = useNavigate();
   let { id } = useParams();
   const [isIOS, setIsIOS] = useState(false);
+  const [rating, setRating] = useState(0);
+
   const { search } = useLocation();
   console.log(search, "search");
   console.log(search.substring(1));
   console.log(id, "iddddd");
+
   const initialValues = {
     tipAmount: "",
     workerName: "",
     mobileNumber: "",
-    currency:""
+    currency: "",
   };
 
   const edit = useFormEdit(initialValues);
   const RequiredFields = ["tipAmount"];
+
+  const tipError = isError && !edit.getValue("tipAmount");
   const featch = async () => {
     const getWorkerDetailsRes = await API.PaymentServices.getUserById(id);
     if (
@@ -48,7 +54,7 @@ const Dashboard = () => {
       edit.update({
         workerName: workerDetails.name,
         mobileNumber: workerDetails.mobile_number,
-        currency:getWorkerDetailsRes?.currencyCode
+        currency: getWorkerDetailsRes?.currencyCode,
       });
       let barCodeAccData = {
         workerDetails: {
@@ -131,35 +137,43 @@ const Dashboard = () => {
     }
   }, []);
 
+  const handleChangeOnRate = (e, { rating }) => {
+    e.preventDefault();
+    setRating(rating);
+  };
 
   const onClickPay = async () => {
+    if (!edit.allFilled(...RequiredFields)) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
     if (RequiredFields && edit.allFilled("tipAmount")) {
       let data = {
         customer_id: search.substring(1),
-        amount: Number(edit.getValue("tipAmount"))*100,
+        amount: Number(edit.getValue("tipAmount")) * 100,
         currency: edit.getValue("currency"),
       };
       try {
-        if(Object.keys(barCodeAccountData)?.length){
-        const response = await API.PaymentServices.createPaymentIntent(data);
-        console.log(Object.keys(barCodeAccountData),'barCodeAccountData');
-        console.log(response, "response");
-        if (response.code ===CONST.STATUS_CODE.CREATED ) {
-          navigate("/payment", {
-            state: {
-              barCodeAccountData,
-              tipAmount: edit.getValue("tipAmount")*100,
-              payment: response,
-              currency:edit.getValue("currency")
-            },
-          });
+        if (Object.keys(barCodeAccountData)?.length) {
+          const response = await API.PaymentServices.createPaymentIntent(data);
+          console.log(Object.keys(barCodeAccountData), "barCodeAccountData");
+          console.log(response, "response");
+          if (response.code === CONST.STATUS_CODE.CREATED) {
+            navigate("/payment", {
+              state: {
+                barCodeAccountData,
+                tipAmount: edit.getValue("tipAmount") * 100,
+                payment: response,
+                currency: edit.getValue("currency"),
+              },
+            });
+          }
+          setApiResponse(response);
         }
-        setApiResponse(response);
-      }
       } catch (error) {
         console.error("Error fetching client secret:", error);
       }
-     
     }
   };
 
@@ -173,7 +187,7 @@ const Dashboard = () => {
           // rowGap: 20,
           alignItems: "center",
           width: 400,
-          //height: 300,
+          height: 300,
         }}
       >
         <img
@@ -186,11 +200,18 @@ const Dashboard = () => {
           {`Paying ${edit.getValue("workerName")}`}
         </Typography>
         <Typography>{edit.getValue("mobileNumber")}</Typography>
-        <Rating
+        {/* <Rating
           name="size-large"
           defaultValue={2}
           style={{ borderRadius: 10 }}
           size="large"
+        /> */}
+        <Rating
+          icon="star"
+          size='huge'
+          maxRating={5}
+          value={rating}
+          onRate={handleChangeOnRate}
         />
 
         <Typography
@@ -198,10 +219,10 @@ const Dashboard = () => {
             marginTop: 10,
             marginBottom: 10,
             fontSize: 13,
-            color: "#7C8396",
+            color: tipError ? "#EC5C4D" : "#7C8396",
           }}
         >
-          Enter Tip Amount
+          {tipError ? "Please Enter Tip Amount" : "Enter Tip Amount"}
         </Typography>
         <Grid style={{ width: "65%", marginBottom: 25 }}>
           <MuiTextInput
@@ -223,7 +244,7 @@ const Dashboard = () => {
                 border: "none !important",
               },
             }}
-            inputProps={{ inputMode: 'numeric' }}
+            inputProps={{ inputMode: "numeric" }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

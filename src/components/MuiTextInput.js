@@ -50,7 +50,7 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   display: "flex",
   gap: "8px",
   alignItems: "center",
-  fontWeight:'500'
+  fontWeight: "500",
 }));
 
 const MuiTextInput = ({
@@ -84,7 +84,7 @@ const MuiTextInput = ({
       sx={{
         "& .MuiInputBase-root": {
           height: inputHeight || 36,
-          fontWeight: textWeight || 500
+          fontWeight: textWeight || 500,
         },
         ...sx,
       }}

@@ -38,6 +38,8 @@
     "react-router-dom": "6.4.4",
     "react-scripts": "5.0.1",
     "react-split": "^2.0.14",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4",
     "source-map-explorer": "^2.5.3",
     "web-vitals": "^2.1.0"
   },
