@@ -11,7 +11,6 @@ export default function CheckoutForm(props) {
   console.log(props.data, "props.data");
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [workerTransactionData, setWorkerTransactionData] = useState({});
   const randomNum = Math.floor(1000000 + Math.random() * 9000000);
   const navigate = useNavigate();
 
@@ -19,36 +18,35 @@ export default function CheckoutForm(props) {
     e.preventDefault();
     console.log(props.data, "props.data");
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
     setIsProcessing(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
-      // confirmParams: {
-      //   // Make sure to change this to your payment completion page
-      //   return_url: "https://snazzy-lolly-c7aa33.netlify.app",
-      // },
-      redirect: 'if_required'
+  
+      redirect: "if_required",
     });
-    console.log(error,'error')
+    console.log(error, "error");
+ 
     // if (error?.type === "card_error" || error?.type === "validation_error") {
     //   // setMessage(error.message);
     // } else {
     //   setMessage("An unexpected error occurred.");
     // }
 
-    const { barCodeAccountData, payment } = props.data;
+    const { barCodeAccountData,tipAmount,currency, payment } = props.data;
     const piRes = await stripe.retrievePaymentIntent(payment.paymentIntent);
     console.log(piRes, "----piRes-----");
 
-    const netAmount=await API.PaymentServices.getNetAmount({paymentIntend:piRes?.paymentIntent?.id})
-    console.log(netAmount,'netAmount.data.net')
-    
-    console.log(netAmount,'netAmount.data.net')
-    let piAmount = piRes?.paymentIntent?.amount;
+    const netAmount = await API.PaymentServices.getNetAmount({
+      paymentIntend: piRes?.paymentIntent?.id,
+    });
+    console.log(netAmount?.data?.net, "netAmount.data.net");
+
+    console.log(netAmount, "netAmount.data.net");
+    // let piAmount = piRes?.paymentIntent?.amount;
+    let piAmount = netAmount?.data?.net;
     let destinationTransferData = [];
     let commisionAmount = 0;
 
@@ -57,7 +55,7 @@ export default function CheckoutForm(props) {
         let rAmount = (itm.commission / 100) * piAmount;
         commisionAmount = commisionAmount + rAmount;
         destinationTransferData.push({
-          amount: rAmount,
+          amount: Number(Math.round(rAmount)),
           currency: "USD",
           destination: itm.connect_id,
         });
@@ -73,7 +71,7 @@ export default function CheckoutForm(props) {
     if (barCodeAccountData.mainWorkerAccounts.length) {
       barCodeAccountData.mainWorkerAccounts.forEach((itm) => {
         destinationTransferData.push({
-          amount: splitAmountToWorkers,
+          amount: Number(Math.round(splitAmountToWorkers)),
           currency: "USD",
           destination: itm,
         });
@@ -89,15 +87,18 @@ export default function CheckoutForm(props) {
       });
     }
     let tData = { destination_accounts: destinationTransferData };
+    console.log(tData,'tDatatDatatDatatDatatDatatDatatData')
     const transferRes = await API.PaymentServices.createTransfer(tData);
     console.log(transferRes, "transferRes--------------------------");
     if (transferRes?.code === CONST.STATUS_CODE.CREATED) {
       const tData = transferRes.data.map((itm) => {
+        console.log(itm.amount,'itm.amount')
         return {
           ...itm,
           payment_status: "SUCCESS",
           created: new Date(itm.created * 1000).toISOString(),
-          amount: Number(itm.amount / 100),
+          // amount: Number(itm.amount / 100),
+          amount:Number(Math.round(itm.amount))
           // amount:
           //   'USD' +
           //   ' ' +
@@ -163,8 +164,9 @@ export default function CheckoutForm(props) {
       setIsProcessing(false);
       navigate("/success-screen", {
         state: {
-          amount: piAmount / 100,
+          amount: tipAmount/100 ,
           name: barCodeAccountData?.workerDetails?.name,
+          currency:currency,
           mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
           date:
             new Date(createdDate).getDate() +
@@ -181,8 +183,9 @@ export default function CheckoutForm(props) {
     } else {
       navigate("/failure-screen", {
         state: {
-          amount: piAmount / 100,
+          amount: tipAmount /100,
           name: barCodeAccountData?.workerDetails?.name,
+          currency:currency,
           mobileNumber: barCodeAccountData?.workerDetails?.mobileNumber,
           date:
             new Date().getDate() +
@@ -201,7 +204,6 @@ export default function CheckoutForm(props) {
 
     // setIsProcessing(false);
   };
-  console.log(workerTransactionData, "workerTransactionData");
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />

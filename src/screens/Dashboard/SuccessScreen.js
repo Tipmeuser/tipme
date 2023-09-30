@@ -81,7 +81,7 @@ const SuccessScreen = () => {
                       fontWeight: "700",
                     }}
                   >
-                    USD
+                    {state?.currency}
                   </Typography>
                 </InputAdornment>
               ),

@@ -32,6 +32,7 @@ const Dashboard = () => {
     tipAmount: "",
     workerName: "",
     mobileNumber: "",
+    currency:""
   };
 
   const edit = useFormEdit(initialValues);
@@ -47,6 +48,7 @@ const Dashboard = () => {
       edit.update({
         workerName: workerDetails.name,
         mobileNumber: workerDetails.mobile_number,
+        currency:getWorkerDetailsRes?.currencyCode
       });
       let barCodeAccData = {
         workerDetails: {
@@ -55,7 +57,6 @@ const Dashboard = () => {
           name: workerDetails.name,
           mobileNumber: workerDetails.mobile_number,
           image_url: workerDetails.user_image,
-          // dialCode: getWorkerDetailsRes?.dialCode,
         },
         commissionAccounts: [],
         mainWorkerAccounts: [workerDetails.connect_account_id],
@@ -136,7 +137,7 @@ const Dashboard = () => {
       let data = {
         customer_id: search.substring(1),
         amount: Number(edit.getValue("tipAmount"))*100,
-        currency: "USD",
+        currency: edit.getValue("currency"),
       };
       try {
         if(Object.keys(barCodeAccountData)?.length){
@@ -149,6 +150,7 @@ const Dashboard = () => {
               barCodeAccountData,
               tipAmount: edit.getValue("tipAmount")*100,
               payment: response,
+              currency:edit.getValue("currency")
             },
           });
         }
@@ -232,7 +234,7 @@ const Dashboard = () => {
                       fontWeight: "700",
                     }}
                   >
-                    USD
+                    {edit.getValue("currency")}
                   </Typography>
                 </InputAdornment>
               ),
