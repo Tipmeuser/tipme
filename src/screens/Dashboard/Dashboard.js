@@ -11,7 +11,6 @@ import ApplePay from "../../assets/applePay.svg";
 import AppleStore from "../../assets/appleStore.svg";
 import GpayLogo from "../../assets/GpayLogo.svg";
 import RevoultLogo from "../../assets/RevoultLogo.svg";
-// import Rating from "@mui/material/Rating";
 import InputAdornment from "@mui/material/InputAdornment";
 import API from "../../services";
 import CONST from "../../config/constants";
