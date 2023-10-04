@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway&display=swap");
+/* @import url("https://fonts.googleapis.com/css?family=Raleway&display=swap"); */
+/* @import url("https://fonts.cdnfonts.com/css/creato-display"); */
 
 :root {
   --light-grey: #f6f9fc;
@@ -9,7 +10,7 @@
 
 body {
   padding: 20px;
-  font-family: "Raleway";
+  font-family: "Creato Display", sans-serif;
   display: flex;
   justify-content: center;
   font-size: 1.2em;

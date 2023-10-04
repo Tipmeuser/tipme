@@ -1,10 +1,15 @@
 import { memo } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 const Loader = () => {
   return (
-    <Box>
-      <Typography>Loading...</Typography>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ minHeight: 400 }}
+    >
+      <CircularProgress color="primary" />
     </Box>
   );
 };
