@@ -221,7 +221,6 @@ const Dashboard = () => {
             maxRating={5}
             value={rating}
             onRate={handleChangeOnRate}
-            style={{ backgroundColor: "red" }}
           />
 
           <Typography
